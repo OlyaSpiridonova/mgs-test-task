@@ -16,43 +16,25 @@
     </q-header>
 
     <q-page-container >
-      <router-view />
+      <main-page :selectedOption="selectOption"/>
     </q-page-container>
 
   </q-layout>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      selectOption: 'menu',
-      options: [
-        {
-          label: 'Меню',
-          value: 'menu'
-        },
-        {
-          label: 'Гости',
-          value: 'guest'
-        }
-      ]
-    }
+<script setup>
+import MainPage from '../pages/MainPage'
+import { ref } from 'vue'
+
+const selectOption = ref('menu')
+const options = [
+  {
+    label: 'Меню',
+    value: 'menu'
   },
-  provide () {
-    return {
-      selectedOption: this.selectOption
-    }
-  },
-  watch: {
-    selectOption () {
-      const redirectURL = `/${this.$route.query.redirect || this.selectOption}`
-      this.$router.replace(redirectURL)
-    }
-  },
-  mounted () {
-    const redirectURL = `/${this.$route.query.redirect || this.selectOption}`
-    this.$router.replace(redirectURL)
+  {
+    label: 'Гости',
+    value: 'guest'
   }
-}
+]
 </script>

@@ -1,11 +1,7 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: 'menu', component: () => import('pages/MenuList.vue') },
-      { path: 'guest', component: () => import('pages/GuestList.vue') }
-    ]
+    component: () => import('layouts/MainLayout.vue')
   },
   {
     path: '/:catchAll(.*)*',

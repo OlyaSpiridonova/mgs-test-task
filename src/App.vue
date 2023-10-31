@@ -2,11 +2,13 @@
   <router-view />
 </template>
 
-<script>
-export default {
-  name: 'App',
-  created () {
-    this.$store.dispatch('connectSocket')
-  }
-}
+<script setup>
+import store from './store/index'
+import { provide, onMounted } from 'vue'
+
+provide('store', store)
+
+onMounted(() => {
+  store.connectSocket()
+})
 </script>

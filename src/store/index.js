@@ -1,15 +1,31 @@
-import { store } from 'quasar/wrappers'
-import { createStore } from 'vuex'
-import socketModule from './modules/socket/index'
+import { reactive } from 'vue'
 
-export default store(function () {
-  const Store = createStore({
-    modules: {
-      socket: socketModule
-    },
+const url = '178.250.156.182:8080/fortest'
 
-    strict: process.env.DEBUGGING
-  })
-
-  return Store
+const socket = reactive({
+  key: 'zFIzPW57qS7ORxnKU6ej',
+  websocket: null,
+  message: null
 })
+
+function connectSocket () {
+  const ws = new WebSocket(`ws://${url}`)
+  socket.websocket = ws
+  ws.onmessage = (event) => {
+    const response = JSON.parse(event.data)
+    socket.message = response
+  }
+}
+
+function sendSocketMessage (responseObj) {
+  socket.websocket.send(JSON.stringify({
+    key: socket.key,
+    ...responseObj
+  }))
+}
+
+export default {
+  socket,
+  connectSocket,
+  sendSocketMessage
+}
