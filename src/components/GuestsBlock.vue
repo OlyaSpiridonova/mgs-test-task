@@ -1,49 +1,44 @@
 <template>
-    <q-page class="flex flex-center column">
-        <div class="title">Гости</div>
-        <q-btn-toggle
-            v-model="secondModel"
-            spread
-            class="my-custom-toggle"
-            no-caps
-            rounded
-            unelevated
-            toggle-color="primary"
-            color="white"
-            text-color="primary"
-            :options="[
-            {label: 'Регистрация гостя', value: 'registration'},
-            {label: 'Список гостей', value: 'list'}
-            ]"
-        />
-        <div v-if="secondModel === 'registration'" class="q-pa-md" >
-            <registration-guest />
-        </div>
-
-        <base-loader v-if="!guests"/>
-
-        <div v-if="secondModel === 'list' && guests" class="guests__list">
-            <q-table
-                title="Таблица гостей"
-                :rows="guests"
-                :columns="columns"
-                row-key="name"
-            />
-            <data-changer :phone="true" action="Дополнительный номер телефона для гостя"/>
-            <data-changer :email="true" action="Дополнительный email для гостя"/>
-        </div>
+  <q-page class="flex flex-center column">
+      <div class="title">Гости</div>
+      <BaseLoader v-if="!guests"/>
+      <div v-else class="q-pa-md">
+          <div class="q-gutter-y-md" style="max-width: 600px">
+              <q-card>
+                  <q-tabs
+                  v-model="tab"
+                  dense
+                  class="bg-grey-2 text-grey-7"
+                  active-color="primary"
+                  indicator-color="purple"
+                  align="justify"
+                  >
+                  <q-tab name="registration" label="Регистрация гостя" />
+                  <q-tab name="list" label="Список" />
+              </q-tabs>
+              <q-tab-panels v-model="tab" animated class="bg-white text-white">
+                  <q-tab-panel name="registration">
+                      <RegistrationGuest />
+                  </q-tab-panel>
+                  <q-tab-panel name="list">
+                      <TableGuests :guests="guests"/>
+                  </q-tab-panel>
+              </q-tab-panels>
+          </q-card>
+          </div>
+      </div>
   </q-page>
 </template>
 
 <script setup>
 import BaseLoader from './UI/BaseLoader'
 import RegistrationGuest from '../components/RegistrationGuest'
-import DataChanger from '../components/DataChanger'
+import TableGuests from '../components/TableGuests.vue'
 import { ref, computed, watch, inject, onMounted } from 'vue'
 import store from '../store/index'
 
 const { socket, sendSocketMessage } = inject('store', store)
-const secondModel = ref('registration')
+const tab = ref('registration')
 const guests = ref(null)
 
 const newMessage = computed(() => socket.message)
@@ -52,7 +47,7 @@ watch(newMessage, () => {
     guests.value = socket.message.guest_list
   }
   if (socket.message.operation === 'guest_regestration') {
-    secondModel.value = 'list'
+    tab.value = 'list'
     sendSocketMessage({
       operation: 'guests_list'
     })
@@ -75,13 +70,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .title {
-  padding: 25px;
-  font-size: 24px;
-  font-weight: 700;
-}
-.my-custom-toggle {
-  margin: 25px;
-  border: 1px solid #136ddd;
-  width: 30%;
+padding: 25px;
+font-size: 24px;
+font-weight: 700;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
     <q-page class="flex flex-center column">
         <div class="title">Меню Блюд</div>
-        <base-loader v-if="!cards"/>
-        <div class="wrapeer">
-            <dish-card v-for="card in cards" :key="card.id" :card="card"/>
+        <BaseLoader v-if="!cards"/>
+        <div class="row">
+            <DishCard v-for="card in cards" :key="card.id" :card="card"/>
         </div>
     </q-page>
 </template>
@@ -44,14 +44,5 @@ onMounted(() => {
   padding-top: 25px;
   font-size: 24px;
   font-weight: 700;
-}
-
-.wrapeer {
-  padding: 50px;
-  display: grid;
-  gap: 15px;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(3, 30%);
-  justify-content: center;
 }
 </style>

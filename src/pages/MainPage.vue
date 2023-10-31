@@ -1,7 +1,7 @@
 <template>
   <div>
-      <menu-block v-if="props.selectedOption === 'menu'"/>
-      <guests-block v-else />
+      <MenuBlock v-if="props.selectedOption === 'menu'"/>
+      <GuestsBlock v-else />
   </div>
 </template>
 

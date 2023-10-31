@@ -1,4 +1,5 @@
 <template>
+  <div class="col-md-4 q-pa-md">
     <q-card class="my-card">
       <q-card-section>
         <div class="text-h6 text-center">{{ props.card.dish_name}}</div>
@@ -8,10 +9,11 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="around">
-        <data-changer :id="props.card.dish_id" action="Изменить цену"/>
-        <data-changer :id="props.card.dish_id" action="Изменить описание"/>
+        <DataChanger :id="props.card.dish_id" action="Изменить цену"/>
+        <DataChanger :id="props.card.dish_id" action="Изменить описание"/>
       </q-card-actions>
     </q-card>
+  </div>
 </template>
 
 <script setup>

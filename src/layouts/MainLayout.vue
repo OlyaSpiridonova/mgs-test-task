@@ -16,7 +16,7 @@
     </q-header>
 
     <q-page-container >
-      <main-page :selectedOption="selectOption"/>
+      <MainPage :selectedOption="selectOption"/>
     </q-page-container>
 
   </q-layout>
